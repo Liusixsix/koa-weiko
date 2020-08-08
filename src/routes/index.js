@@ -20,11 +20,10 @@ router.get('/string', async (ctx, next) => {
   //  console.log(sission)
 })
 
-router.get('/json/:username/:pageIndex', async (ctx, next) => {
-  const { username ,pageIndex} = ctx.params
+router.get('/json', async (ctx, next) => {
+
   ctx.body = {
-    username,
-    pageIndex
+   title:"zhelishi json"
   }
 })
 
