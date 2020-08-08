@@ -7,7 +7,17 @@ router.get('/', async (ctx, next) => {
 })
 
 router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
+ 
+   const session =  ctx.session
+   console.log( ctx.session)
+   if(session.viewNum==null){
+    session.viewNum= 0
+   }
+   session.viewNum++
+   ctx.body = {
+    viewNum:session.viewNum
+  }
+  //  console.log(sission)
 })
 
 router.get('/json/:username/:pageIndex', async (ctx, next) => {

@@ -1,3 +1,5 @@
-const { set } =  require('./_redis')
+const { set,get } =  require('./_redis')
 
 set()
+
+get()

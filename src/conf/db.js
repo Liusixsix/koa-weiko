@@ -1,4 +1,4 @@
-const model = require("../../model")
+
 const { isProd } = require('../utils/env')
 let REDIS_CONF = {
     port: 6379,
