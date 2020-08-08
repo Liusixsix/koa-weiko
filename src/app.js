@@ -24,30 +24,30 @@ onerror(app)
 
 // middlewares
 app.use(bodyparser({
-  enableTypes: ['json', 'form', 'text']
+    enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
-  extension: 'ejs'
+    extension: 'ejs'
 }))
 
 // session 配置
 app.keys = ['udisd_213']
 app.use(session({
-  key: 'weibo.sid',//cookie name 默认koa.sid
-  prefix: 'weibo:sess',//redis key的前缀 默认是 koa:sess
-  cookie: {
-    path: '/',
-    httpOnly: true,
-    maxAge: 24 * 60 *60 *1000 //ms
-  },
-  // ttl:24 * 60 *60 *1000 ,
-  store:redisStore({
-    all:`${REDIS_CONF.host}:${REDIS_CONF.port}`
-  })
+    key: 'weibo.sid',//cookie name 默认koa.sid
+    prefix: 'weibo:sess',//redis key的前缀 默认是 koa:sess
+    cookie: {
+        path: '/',
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000 //ms
+    },
+    // ttl:24 * 60 *60 *1000 ,
+    store: redisStore({
+        all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+    })
 }))
 
 
@@ -60,12 +60,12 @@ app.use(session({
 // })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
+app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
-});
+    console.error('server error', err, ctx)
+})
 
 module.exports = app

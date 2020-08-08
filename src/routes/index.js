@@ -1,30 +1,28 @@
 const router = require('koa-router')()
 
 router.get('/', async (ctx, next) => {
-  await ctx.render('index', {
-    title: 'Hello Koa 2!'
-  })
+    await ctx.render('index', {
+        title: 'Hello Koa 2!'
+    })
 })
 
 router.get('/string', async (ctx, next) => {
- 
-   const session =  ctx.session
-   console.log( ctx.session)
-   if(session.viewNum==null){
-    session.viewNum= 0
-   }
-   session.viewNum++
-   ctx.body = {
-    viewNum:session.viewNum
-  }
-  //  console.log(sission)
+    const session = ctx.session
+    console.log(ctx.session)
+    if (session.viewNum == null) {
+        session.viewNum = 0
+    }
+    session.viewNum++
+    ctx.body = {
+        viewNum: session.viewNum
+    }
+    //  console.log(sission)
 })
 
 router.get('/json', async (ctx, next) => {
-
-  ctx.body = {
-   title:"zhelishi json"
-  }
+    ctx.body = {
+        title: 'zhelishi json'
+    }
 })
 
 module.exports = router

@@ -3,7 +3,7 @@
  */
 const redis = require('redis')
 const { REDIS_CONF } = require('../conf/db')
-const { ne } = require('sequelize/types/lib/operators')
+
 
 
 
