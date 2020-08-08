@@ -17,10 +17,14 @@ const redisStore = require('koa-redis')
 const { REDIS_CONF } = require('./conf/db')
 const index = require('./routes/index')
 const users = require('./routes/users')
-
+const errorViewRouter = require('./routes/view/error') 
 
 // error handler
-onerror(app)
+let onerrorConf = {}
+onerrorConf= {
+    redirect:'/error',//错误时跳转到error
+}
+onerror(app,onerrorConf)
 
 // middlewares
 app.use(bodyparser({
@@ -60,8 +64,9 @@ app.use(session({
 // })
 
 // routes
-app.use(index.routes(), index.allowedMethods());
+app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
