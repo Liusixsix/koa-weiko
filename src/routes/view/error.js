@@ -2,8 +2,6 @@
  * @description error 404
  */
 
-const { createContext } = require('../../app')
-
 const router = require('koa-router')()
 
 // error

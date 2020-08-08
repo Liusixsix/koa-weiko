@@ -3,18 +3,18 @@
  */
 
 const seq = require('./seq')
-
-seq.authenticate().then(res=>{
+require('./model')
+seq.authenticate().then(res => {
     console.log('ok')
-}).catch(()=>{
+}).catch(() => {
     console.log('err')
 })
 
 seq.sync({
-    force:true ,//同步清空表 重新创建
-}).then(()=>{
+    force: true,//同步清空表 重新创建
+}).then(() => {
     console.log('sync ok')
     process.exit()
-}).catch(e=>{
+}).catch(e => {
     console.log(e)
 })
