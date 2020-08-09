@@ -8,9 +8,9 @@ const { STRING, DECIMAL } = require('../type')
 const User = seq.define('user', {
     userName: {
         type: STRING,
-        allowNull: false,
+        allowNull: false,//是否可为空
         unique: true, //唯一
-        comment: '用户名'
+        comment: '用户名 唯一'
     },
     password: {
         type: STRING,
@@ -26,7 +26,7 @@ const User = seq.define('user', {
         type: DECIMAL,
         allowNull: false,
         defaultValue: 3,
-        comment: '性别1男 2女 3保密'
+        comment: '性别 （1男 2女 3保密）'
     },
     picture: {
         type: STRING,
