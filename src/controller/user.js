@@ -2,7 +2,7 @@
  * @description user controller
  */
 
-const { getUserInfo, createUser } = require('../services/user')
+const { getUserInfo, createUser, deleteUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const { doCrypto } = require('../utils/cryp')
 
@@ -51,6 +51,43 @@ async function register({ userName, password, gender }) {
     }
 }
 
+/**
+ * 登录
+ * @param {Object} ctx 
+ * @param {string} userName 用户名
+ * @param {string} password 密码
+ */
+async function login(ctx,userName,password){
+    const userInfo =  await getUserInfo(userName,doCrypto(password))
+    if(!userInfo){
+        return new ErrorModel({
+            errno:10001,
+            message:'登录失败'
+        })
+    }
+    // 登录成功
+    if(ctx.session.userInfo == null){
+        ctx.session.userInfo = userInfo
+    }
+    return new SuccessModel()
+}
+
+/**
+ * 删除当前用户
+ * @param {string}} userName 用户名
+ */
+async function  delectCurUser(userName) {
+    const result = await deleteUser(userName)
+    if(result){
+        return new SuccessModel()
+    }
+    return new ErrorModel({
+        errno:10001,
+        message:'删除用户失败'
+    })
+}
+
+
 module.exports = {
-    isExist, register
+    isExist, register,login,delectCurUser
 }
