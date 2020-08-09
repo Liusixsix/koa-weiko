@@ -1,15 +1,23 @@
 /**
  * @description utils
  */
-const path  = require('path')
-const { ErrorModel,SuccessModel } = require('../model/ResModel')
+const path = require('path')
+const { ErrorModel, SuccessModel } = require('../model/ResModel')
 const fse = require('fs-extra')
+const { parse } = require('path')
 
 // 存储目录
-
-const DIST_FOLDER_PATH = path.join(__dirname,'..','..','uploadFiles')
+const DIST_FOLDER_PATH = path.join(__dirname, '..', '..', 'uploadFiles')
 // 文件最大体积 1m
 const MAX_SIZE = 1024 * 1024 * 1024
+
+// 是否需要创建目录
+fse.pathExists(DIST_FOLDER_PATH).then(exist=>{
+    if(!exist){
+        fse.ensureDir(DIST_FOLDER_PATH)
+    }
+})
+
 
 /**
  * 保存文件
@@ -28,11 +36,11 @@ async function saveFile({ name, type, size, filePath }) {
     }
     // 移动文件
     const fileName = Date.now() + '.' + name //防止重名
-    const distFilePath = path.join(DIST_FOLDER_PATH,filePath)  //目的地
-    await fse.move(filePath,distFilePath)
+    const distFilePath =  path.join(DIST_FOLDER_PATH, filePath)  //目的地
+    await fse.move(filePath, distFilePath)
 
     return new SuccessModel({
-        url:'/'+fileName
+        url: '/' + fileName
     })
 
 }
