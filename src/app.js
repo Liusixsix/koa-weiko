@@ -4,10 +4,12 @@
  * @Date: 2020-07-31 20:45:24
  * @LastEditTime: 2020-07-31 21:03:35
  */
+const path = require('path')
 const Koa = require('koa')
 const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
+const koaStatic = require('koa-static')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
@@ -15,17 +17,20 @@ const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 
 const { REDIS_CONF } = require('./conf/db')
+
+// 路由
 const index = require('./routes/index')
-const userViewRouter = require('./routes/view/user') 
+const utilsApiRouter = require('./routes/api/utils')
+const userViewRouter = require('./routes/view/user')
 const userApiRouter = require('./routes/api/user')
-const errorViewRouter = require('./routes/view/error') 
+const errorViewRouter = require('./routes/view/error')
 
 // error handler
 let onerrorConf = {}
-onerrorConf= {
-    redirect:'/error',//错误时跳转到error
+onerrorConf = {
+    redirect: '/error',//错误时跳转到error
 }
-onerror(app,onerrorConf)
+onerror(app, onerrorConf)
 
 // middlewares
 app.use(bodyparser({
@@ -33,7 +38,8 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(koaStatic(__dirname + '/public'))
+app.use(koaStatic(path.join(__dirname ,'..', 'uploadFiles')))
 
 app.use(views(__dirname + '/views', {
     extension: 'ejs'
@@ -66,8 +72,9 @@ app.use(session({
 
 // routes
 app.use(index.routes(), index.allowedMethods())
+app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
-app.use(userApiRouter.routes(), userApiRouter.allowedMethods()) 
+app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) //404 页面路由 放到最后
 
 // error-handling
