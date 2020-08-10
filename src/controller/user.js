@@ -2,7 +2,7 @@
  * @description user controller
  */
 
-const { getUserInfo, createUser, deleteUser } = require('../services/user')
+const { getUserInfo, createUser, deleteUser,updateUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const { doCrypto } = require('../utils/cryp')
 
@@ -37,10 +37,10 @@ async function register({ userName, password, gender }) {
         })
     }
     try {
-        await createUser({ 
-            userName, 
-            password:doCrypto(password),
-            gender 
+        await createUser({
+            userName,
+            password: doCrypto(password),
+            gender
         })
         return new SuccessModel()
     } catch (err) {
@@ -57,16 +57,16 @@ async function register({ userName, password, gender }) {
  * @param {string} userName 用户名
  * @param {string} password 密码
  */
-async function login(ctx,userName,password){
-    const userInfo =  await getUserInfo(userName,doCrypto(password))
-    if(!userInfo){
+async function login(ctx, userName, password) {
+    const userInfo = await getUserInfo(userName, doCrypto(password))
+    if (!userInfo) {
         return new ErrorModel({
-            errno:10001,
-            message:'登录失败'
+            errno: 10001,
+            message: '登录失败'
         })
     }
     // 登录成功
-    if(ctx.session.userInfo == null){
+    if (ctx.session.userInfo == null) {
         ctx.session.userInfo = userInfo
     }
     return new SuccessModel()
@@ -76,18 +76,51 @@ async function login(ctx,userName,password){
  * 删除当前用户
  * @param {string}} userName 用户名
  */
-async function  delectCurUser(userName) {
+async function delectCurUser(userName) {
     const result = await deleteUser(userName)
+    if (result) {
+        return new SuccessModel()
+    }
+    return new ErrorModel({
+        errno: 10001,
+        message: '删除用户失败'
+    })
+}
+
+/**
+ * 
+ * @param {Object} ctx 
+ * @param {string} nickName 昵称
+ * @param {city} nickName 城市
+ * @param {picture} nickName  头像
+ */
+async function changeInfo(ctx, { nickName, city, picture }) {
+    const { userName } = ctx.session.userInfo
+    if (!nickName) {
+        nickName = userName
+    }
+    const result = await updateUser(
+        {
+            newNickName:nickName,
+            newCity:city,
+            newPicture:picture
+        },
+        {userName}
+    )
     if(result){
+        Object.assign(ctx.session.userInfo,{
+            nickName,
+            city,
+            picture
+        })
         return new SuccessModel()
     }
     return new ErrorModel({
         errno:10001,
-        message:'删除用户失败'
+        message:'修改失败'
     })
 }
 
-
 module.exports = {
-    isExist, register,login,delectCurUser
+    isExist, register, login, delectCurUser,changeInfo
 }

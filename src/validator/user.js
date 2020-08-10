@@ -22,6 +22,9 @@ const SCHEMA = {
             type: 'number',
             minimum: 1,
             maximum: 3
+        },
+        picture:{
+            type:'string'
         }
     }
 }
