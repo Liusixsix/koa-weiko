@@ -88,6 +88,7 @@ async function updateUser({ newPassword, newNickName, newPicture, newCity }, { u
     const result = await User.update(updateData,{
         where:whereData
     })
+    console.log(result)
     return result[0]>0
 }
 
