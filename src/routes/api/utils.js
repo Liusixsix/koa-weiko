@@ -5,18 +5,13 @@
 const router = require('koa-router')()
 const { loginCheck } = require('../../middlewares/loginChecks')
 const koaFrom = require('formidable-upload-koa')
-const { saveFile } = require('../../controller/utils')
+const { saveFile,upload } = require('../../controller/utils')
 router.prefix('/api/utils')
 
 // 上传图片
-router.post('/upload', loginCheck, koaFrom(), async (ctx, next) => {
-    const file = ctx.req.files['file']
-   
-    const { size, path, name, type } = file
-    console.log({ size, path, name, type } )
-    ctx.body = await saveFile({
-        name, size, type, filePath: path
-    })
+router.post('/upload', loginCheck, upload.single('file'), async (ctx, next) => {
+    const file = ctx.req.file
+    ctx.body = await saveFile(file)
 })
 
 module.exports = router

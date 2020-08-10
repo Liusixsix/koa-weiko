@@ -39,7 +39,7 @@ app.use(bodyparser({
 app.use(json())
 app.use(logger())
 app.use(koaStatic(__dirname + '/public'))
-app.use(koaStatic(path.join(__dirname ,'..', 'uploadFiles')))
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')))
 
 app.use(views(__dirname + '/views', {
     extension: 'ejs'
@@ -55,7 +55,7 @@ app.use(session({
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 //ms
     },
-    // ttl:24 * 60 *60 *1000 ,
+    ttl:24 * 60 *60 *1000 ,
     store: redisStore({
         all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
     })
