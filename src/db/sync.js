@@ -18,3 +18,4 @@ seq.sync({
 }).catch(e => {
     console.log(e)
 })
+

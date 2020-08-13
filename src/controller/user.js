@@ -144,10 +144,10 @@ async function changePassword(userName, password, newPassword) {
 /**
  * 退出登录
  */
-async function logout(ctx){
+async function logout(ctx) {
     delete ctx.session.userInfo
     return new SuccessModel()
 }
 module.exports = {
-    isExist, register, login, delectCurUser, changeInfo,changePassword,logout
+    isExist, register, login, delectCurUser, changeInfo, changePassword, logout
 }

@@ -19,6 +19,7 @@ const redisStore = require('koa-redis')
 const { REDIS_CONF } = require('./conf/db')
 
 // 路由
+const blogHomeApiRouter = require('./routes/api/blog-home')
 const blogViewRouter = require('./routes/view/blog')
 const utilsApiRouter = require('./routes/api/utils')
 const userViewRouter = require('./routes/view/user')
@@ -55,10 +56,10 @@ app.use(session({
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 //ms
     },
-    ttl:24 * 60 *60 *1000 ,
-    store: redisStore({
-        all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
-    })
+    ttl: 24 * 60 * 60 * 1000,
+    // store: redisStore({
+    //     all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+    // })
 }))
 
 
@@ -71,6 +72,7 @@ app.use(session({
 // })
 
 // routes
+app.use(blogHomeApiRouter.routes(), blogHomeApiRouter.allowedMethods())
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())

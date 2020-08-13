@@ -19,7 +19,7 @@ const SCHEMA = {
             minLength: 3
         },
         gender: {
-            type: 'number',
+            type: 'string',
             minimum: 1,
             maximum: 3
         },

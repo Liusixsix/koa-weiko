@@ -42,7 +42,7 @@ async function createUser({ userName, password, gender = 3, nickName }) {
     const result = await User.create({
         userName, password, nickName: nickName ? nickName : userName, gender
     })
-    return result.dataValues
+    return result.dataValues 
 }
 
 /**
