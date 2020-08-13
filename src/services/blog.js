@@ -6,8 +6,8 @@ const { Blog } = require('../db/model/index')
  * @param {*} content 微博内容
  * @param {*} image 图片地址
  */
-async function createBlog({ content, image, id }) {
-    const result = await Blog.create({ content, image, userId: id })
+async function createBlog({ content, image, userId }) {
+    const result = await Blog.create({ content, image, userId })
     return result.dataValues
 }
 
