@@ -12,23 +12,33 @@ const jwtKoa = require('koa-jwt')
 const { REDIS_CONF } = require('./conf/db')
 const index = require('./routes/index')
 const users = require('./routes/users')
-const errorViewRouter = require('./routes/view/error') 
+const errorViewRouter = require('./routes/view/error')
 
 // error handler
 let onerrorConf = {}
 // onerrorConf= {
 //     redirect:'/error',//错误时跳转到error
 // }
-onerror(app,onerrorConf)
+onerror(app, onerrorConf)
 
+app.use(async (ctx, next) => {
+    return next().catch(err => {
+        if (err.status === 401) {
+            ctx.status = 401
+            ctx.body = {
+                code: 401,
+                msg: 'token验证失败'
+            }
+        } else {
+            throw err
+        }
+    })
+})
 app.use(jwtKoa({
-    secret:'key'
+    secret: 'key'
 }).unless({
-    path:[/^\/users\/login/], //自定义忽略那些目录 jwt验证
+    path: [/^\/users\/login/], //自定义忽略那些目录 jwt验证
 }))
-
-
-
 
 // middlewares
 app.use(bodyparser({
@@ -52,20 +62,14 @@ app.use(session({
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 //ms
     },
-    // ttl:24 * 60 *60 *1000 ,
-    store: redisStore({
-        all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
-    })
+    ttl: 24 * 60 * 60 * 1000,
+    // store: redisStore({
+    //     all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+    // })
 }))
 
 
-// logger
-// app.use(async (ctx, next) => {
-//   const start = new Date()
-//   await next()
-//   const ms = new Date() - start
-//   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-// })
+
 
 // routes
 app.use(index.routes(), index.allowedMethods())

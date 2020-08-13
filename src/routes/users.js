@@ -13,8 +13,8 @@ router.get('/bar', function (ctx, next) {
 })
 // 模拟登陆
 router.post('/login', async (ctx, next) => {
-    const { userName, password } = ctx.request.body;
-    console.log(userName,password)
+    const { userName, password } = ctx.request.body
+    console.log(userName, password)
     let userInfo
     if (userName == '张三' && password == '123') {
         userInfo = {
@@ -42,22 +42,25 @@ router.post('/login', async (ctx, next) => {
     }
 })
 
+router.get('/test',async(ctx,next)=>{
+    ctx.body = 'this is test'
+})
+
 // 获取用户信息
-router.get('/getuserinfo', async (ctx, next) =>{
+router.get('/getuserinfo', async (ctx, next) => {
     const token = ctx.header.authorization
-    console.log(token)
-    try{
-        const payload = await verify(token.split(' ')[1],'key')
+    try {
+        const payload = await verify(token.split(' ')[1], 'key')
         ctx.body = {
-            code:0,
-            userInfo:payload
+            code: 0,
+            userInfo: payload
         }
-    }catch(e){
+    } catch (e) {
         ctx.body = {
-            code:-1,
-            userInfo:'token error'
+            code: -1,
+            userInfo: 'token error'
         }
     }
-    
+
 })
 module.exports = router
