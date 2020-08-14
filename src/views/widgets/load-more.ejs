@@ -9,9 +9,10 @@
     var $btnLoadMore = $('#btn-load-more')
     var $containerWeiboList = $('<%= containerSelector%>')
     var api = '<%= api%>'
-
+    
     // 加载更多
     $btnLoadMore.click(function () {
+        console.log(PAGE_INDEX)
         var nextPageIndex = PAGE_INDEX + 1
         ajax.get(api + '/' + nextPageIndex, function(err, data) {
             if (err) {

@@ -19,7 +19,7 @@
             </div> <!-- 微博列表 结束 -->
             <!-- 加载更多 -->
             <% if (blogData.count > blogData.blogList.length) { %>
-            <% if(locals.userData) {%>
+            
             <%- include('widgets/load-more', {
                             pageSize: blogData.pageSize,
                             pageIndex: blogData.pageIndex,
@@ -27,7 +27,7 @@
                             containerSelector: '#container-weibo-list',
                             api: '/api/profile/loadMore/' + userData.userInfo.userName,
                         })%>
-            <% } %>
+            
             <% } %>
             <!-- 加载更多 结束 -->
             <% } %>
@@ -39,23 +39,13 @@
             <div class="right-item">
                 <%- include('widgets/user-info', {
                     userInfo: userData.userInfo,
-                    isMe: userData.isMe,
-                    amIFollowed: userData.amIFollowed,
-                    atCount: userData.atCount
+                    isMe: userData.isMe
                 });%>
             </div>
 
-            <!-- 粉丝 -->
-            <%- include('widgets/fans', {
-                count: userData.fansData.count,
-                userList: userData.fansData.list
-            })%>
+           
 
-            <!-- 关注 -->
-            <%- include('widgets/followers', {
-                count: userData.followersData.count,
-                userList: userData.followersData.list
-            })%>
+        
 
         </div> <!-- 右侧结束 -->
     </div>

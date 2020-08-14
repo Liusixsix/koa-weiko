@@ -17,6 +17,8 @@ async function getProfileBlogList(userName, pageIndex = 0) {
         pageSize: PAGE_SIZE
     })
     const { blogList, count } = result
+
+    
     return new SuccessModel({
         isEmpty: blogList.length === 0,
         blogList,

@@ -31,7 +31,6 @@ async function loginRedirect(ctx,next){
     }
     // 未登录
     const cuUrl = ctx.cuUrl
-    console.log(cuUrl)
     ctx.redirect('/login?url='+encodeURIComponent(cuUrl))
 }
 
