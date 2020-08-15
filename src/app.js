@@ -1,5 +1,5 @@
 /*
- * @Description:  
+ * @Description:
  * @Author: liu yan
  * @Date: 2020-07-31 20:45:24
  * @LastEditTime: 2020-07-31 21:03:35
@@ -20,6 +20,7 @@ const { REDIS_CONF } = require('./conf/db')
 
 // 路由
 const squareApiRouter = require('./routes/api/blog-square')
+const adminApiRouter = require('./routes/api/admin')
 const profileApiRouter = require('./routes/api/blog-profile')
 const blogHomeApiRouter = require('./routes/api/blog-home')
 const blogViewRouter = require('./routes/view/blog')
@@ -33,7 +34,7 @@ let onerrorConf = {}
 onerrorConf = {
     redirect: '/error',//错误时跳转到error
 }
-onerror(app, onerrorConf)
+onerror(app,onerrorConf)
 
 // middlewares
 app.use(bodyparser({
@@ -59,9 +60,9 @@ app.use(session({
         maxAge: 24 * 60 * 60 * 1000 //ms
     },
     ttl: 24 * 60 * 60 * 1000,
-    store: redisStore({
-        all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
-    })
+    // store: redisStore({
+    //     all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+    // })
 }))
 
 
@@ -77,6 +78,7 @@ app.use(session({
 
 
 app.use(squareApiRouter.routes(), squareApiRouter.allowedMethods())
+app.use(adminApiRouter.routes(), adminApiRouter.allowedMethods())
 app.use(profileApiRouter.routes(), profileApiRouter.allowedMethods())
 app.use(blogHomeApiRouter.routes(), blogHomeApiRouter.allowedMethods())
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())

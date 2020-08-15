@@ -20,31 +20,31 @@ redisClient.on('error', err => {
  * @param {number} timeout  //过期时间 单位s
  */
 function set(key, val, timeout = 60 * 60) {
-    if(typeof val === 'object'){
+    if (typeof val === 'object') {
         val = JSON.stringify(val)
     }
-    redisClient.set(key,val)
-    redisClient.expire(key,timeout)
+    redisClient.set(key, val)
+    redisClient.expire(key, timeout)
 }
 
 /**
  * 
  * @param {string} key 键 
  */
-function get(key){
-    const promise = new Promise((resolve,reject)=>{
-        redisClient.get(key,(err,val)=>{
-            if(err){  
+function get(key) {
+    const promise = new Promise((resolve, reject) => {
+        redisClient.get(key, (err, val) => {
+            if (err) {
                 reject(err)
                 return
             }
-            if(val==null){
+            if (val == null) {
                 resolve(null)
                 return
             }
-            try{
+            try {
                 resolve(JSON.parse(val))
-            }catch(e){
+            } catch (e) {
                 resolve(val)
             }
         })
@@ -53,6 +53,6 @@ function get(key){
 }
 
 
-module.exports ={
-    set,get
+module.exports = {
+    set, get
 }

@@ -19,3 +19,8 @@ router.get('/loadMore/:userName/:pageIndex', loginCheck, async (ctx, next) => {
 
 
 module.exports = router
+router.get('/loadMore/:userName/:pageIndex', loginCheck, async (ctx, next) => {
+    const { userName, pageIndex } = ctx.params
+})
+
+module.exports = router

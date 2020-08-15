@@ -14,7 +14,7 @@
     $btnLoadMore.click(function () {
         console.log(PAGE_INDEX)
         var nextPageIndex = PAGE_INDEX + 1
-        ajax.get(api + '/' + nextPageIndex, function(err, data) {
+        ajax.get(api + '/' + nextPageIndex, function (err, data) {
             if (err) {
                 // 失败
                 alert(err)

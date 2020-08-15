@@ -2,7 +2,7 @@ const router = require('koa-router')()
 const { create } = require('../../controller/blog-home')
 const { loginCheck } = require('../../middlewares/loginChecks')
 const { genValidator } = require('../../middlewares/validator')
-const  blogValidate  = require('../../validator/blog')
+const blogValidate = require('../../validator/blog')
 router.prefix('/api/blog')
 
 // 发表微博
