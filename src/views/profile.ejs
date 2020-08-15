@@ -39,12 +39,21 @@
             <div class="right-item">
                 <%- include('widgets/user-info', {
                     userInfo: userData.userInfo,
-                    isMe: userData.isMe
+                    isMe: userData.isMe,
+                    amIFollowed: userData.amIFollowed,
+                    <!-- atCount: userData.atCount -->
                 });%>
             </div>
-
+            <%- include('widgets/fans', {
+                count: userData.fansData.count,
+                userList: userData.fansData.list
+            })%>
            
-
+            <!-- 关注 -->
+            <%- include('widgets/followers', {
+                count: userData.followersData.count,
+                userList: userData.followersData.list
+            })%>
         
 
         </div> <!-- 右侧结束 -->
