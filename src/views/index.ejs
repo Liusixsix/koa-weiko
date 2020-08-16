@@ -6,15 +6,14 @@
         <div class="col-8">
             <!-- 输入框 -->
             <%- include('widgets/input')%>
-
             <!-- 微博列表 -->
             <% if (blogData.isEmpty) { %>
-            <div>
-                <center>暂无数据</center>
-            </div>
+                <div>
+                    <center>暂无数据</center>
+                </div>
             <% } else { %>
             <!-- 微博列表 -->
-            <div id="container-weibo-list" class="weibo-list">
+            <div id="container-weibo-list" class="weibo-list">     
                 <%- include('widgets/blog-list', {
                         blogList: blogData.blogList,
                         canReply: true
@@ -43,7 +42,7 @@
                     userInfo: userData.userInfo,
                     isMe: true,
                     amIFollowed: false,
-                    atCount: userData.atCount
+                    <!-- atCount: userData.atCount -->
                 });%>
             </div>
 
@@ -61,5 +60,10 @@
         </div> <!-- 右侧结束 -->
     </div>
 </div>
+
+<script>
+    var a = <%= blogData.isEmpty %>
+    console.log(a) 
+</script>
 
 <%- include('layout/footer')%>

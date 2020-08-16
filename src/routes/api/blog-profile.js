@@ -18,6 +18,8 @@ router.get('/loadMore/:userName/:pageIndex', loginCheck, async (ctx, next) => {
     ctx.body = result
 })
 
+
+
 //关注
 router.post('/follow', loginCheck, async (ctx, next) => {
     const { id: myUserId } = ctx.session.userInfo
