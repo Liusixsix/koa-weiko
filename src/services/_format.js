@@ -16,6 +16,21 @@ function _formatUserPictuce(obj) {
 }
 
 /**
+ * 格式化微博内容
+ * @param {object} obj 
+ */
+function _formatContent(obj){
+    obj.contentFormat = obj.contentFormat
+    obj.contentFormat = obj.contentFormat.replace(
+        /@(.+?)\s-\s(\w+?)\b/g,
+        (matchStr,nickName,userName)=>{
+            return `<a href='/profile/${userName}'>${nickName}</a>`
+        }
+    )
+    return obj
+}
+
+/**
  * 
  * @param {Array|Object} list 用户列表或者单个用户对象 
  */

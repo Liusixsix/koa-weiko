@@ -11,7 +11,7 @@ seq.authenticate().then(res => {
 })
 
 seq.sync({
-    force: SVGComponentTransferFunctionElement,//同步清空表 重新创建
+    force: false,//同步清空表 重新创建
 }).then(() => {
     console.log('sync ok')
     process.exit()

@@ -3,6 +3,7 @@
  */
 const {getUserByFollower,addFollower,deleteFollower,getFollowersByUser} = require('../services/userRelation')
 const { SuccessModel,ErrorModel } = require('../model/ResModel')
+
 /**
   * 根据用户id 获取粉丝列表
   * @param {number} userId 用户id 
@@ -23,6 +24,7 @@ async function getFans(userId){
 async function follow(myUserId,curUserId){
     try{
         const result = await addFollower(myUserId,curUserId)
+
         return new SuccessModel()
     }catch(e){
         return new ErrorModel({

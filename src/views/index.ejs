@@ -5,7 +5,9 @@
         <!-- 左侧 -->
         <div class="col-8">
             <!-- 输入框 -->
-            <%- include('widgets/input')%>
+            <%- include('widgets/input',{
+                isInputBlog:true
+            })%>
             <!-- 微博列表 -->
             <% if (blogData.isEmpty) { %>
                 <div>
@@ -42,7 +44,7 @@
                     userInfo: userData.userInfo,
                     isMe: true,
                     amIFollowed: false,
-                    <!-- atCount: userData.atCount -->
+                    atCount: userData.atCount
                 });%>
             </div>
 
