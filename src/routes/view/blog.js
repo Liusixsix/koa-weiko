@@ -8,38 +8,39 @@ const { getProfileBlogList } = require('../../controller/blog-profile')
 const { getSquareBlogList } = require('../../controller/blog-square')
 const { isExist } = require('../../controller/user')
 const { getFans, getFollowers } = require('../../controller/userRelation')
-const {getHomeBlogList} = require('../../controller/blog-home')
-const {getAtMecount} = require('../../controller/blog-at')
+const { getHomeBlogList } = require('../../controller/blog-home')
+const { getAtMecount, getAtMeBlogList } = require('../../controller/blog-at')
+
 
 // 首页
 router.get('/', loginRedirect, async (ctx, next) => {
     const userInfo = ctx.session.userInfo
-    const {id:userId} = userInfo
+    const { id: userId } = userInfo
 
     //获取第一页数据
-    const {data:{isEmpty,blogList,count,pageIndex,pageSize}} = await getHomeBlogList(userId)
+    const { data: { isEmpty, blogList, count, pageIndex, pageSize } } = await getHomeBlogList(userId)
     // 获取粉丝
     const fansResult = await getFans(userId)
     const { count: fansCount, fansList } = fansResult.data
 
     // 获取关注人列表
-    const {data:{ count: followersCount, followerList }} = await getFollowers(userId)
+    const { data: { count: followersCount, followerList } } = await getFollowers(userId)
     // 获取 @ 数量
-    const {data:{count:atCount}} = await getAtMecount(userId)
+    const { data: { count: atCount } } = await getAtMecount(userId)
     await ctx.render('index', {
-        blogData:{
-            isEmpty,blogList,count,pageIndex,pageSize
+        blogData: {
+            isEmpty, blogList, count, pageIndex, pageSize
         },
-        userData:{
+        userData: {
             userInfo,
-            fansData:{
-                count:fansCount,
-                list:fansList
+            fansData: {
+                count: fansCount,
+                list: fansList
             },
             atCount,
-            followersData:{
-                count:followersCount,
-                list:followerList
+            followersData: {
+                count: followersCount,
+                list: followerList
             }
         },
     })
@@ -74,12 +75,12 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     const { count: fansCount, fansList } = fansResult.data
 
     // 获取关注人列表
-    const {data:{ count: followersCount, followerList }} = await getFollowers(curUserinfo.id)
+    const { data: { count: followersCount, followerList } } = await getFollowers(curUserinfo.id)
     // 我是否关注了此人
     const amIFollowed = fansList.some(item => item.userName === myUserName)
 
     // 获取 @ 数量
-    const {data:{count:atCount}} = await getAtMecount(myUserInfo.id)
+    const { data: { count: atCount } } = await getAtMecount(myUserInfo.id)
 
     await ctx.render('profile', {
         blogData: {
@@ -95,8 +96,8 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
             isMe,
             atCount,
             followersData: {
-                count:followersCount,
-                list:followerList
+                count: followersCount,
+                list: followerList
             },
             fansData: {
                 count: fansCount,
@@ -119,6 +120,35 @@ router.get('/square', loginRedirect, async (ctx, next) => {
             count
         }
     })
+})
+
+
+router.get('/at-me', loginRedirect, async (ctx, next) => {
+    const { id: userId } = ctx.session.userInfo
+
+    const atCountResult = await getAtMecount(userId)
+    const { count: atCount } = atCountResult.data
+
+    const result = await getAtMeBlogList(userId)
+    const { isEmpty, blogList,
+        pageSize,
+        pageIndex,
+        count } = result.data
+
+
+    await ctx.render('atMe', {
+        atCount,
+        blogData: {
+            isEmpty, blogList,
+            pageSize,
+            pageIndex,
+            count
+        }
+    })
+
+    if (atCount > 0) {
+
+    }
 })
 
 module.exports = router

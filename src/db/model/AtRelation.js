@@ -4,7 +4,7 @@
 
 const seq = require('../seq')
 const { STRING,TEXT, INTEGER,BOOLEAN } = require('../type')
- 
+                               
 
 const AtRelation = seq.define('atRelation',{
     userId:{
